@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import*
 
 
 def button_click(choice):
@@ -12,6 +13,9 @@ def button_click(choice):
 
 
 root = tk.Tk()
+root.geometry("300x200")
+img = PhotoImage(file="resources/coffeelogo2.png")
+root.iconphoto(False, img)
 root.title("Drink your coffee now")  # Create a window
 
 name_label = tk.Label(root, text="Please insert your name:")
