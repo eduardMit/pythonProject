@@ -5,14 +5,14 @@ from tkinter import simpledialog
 
 
 def button_click(choice):
-    if choice == 1:     # This button generate your random coffe
+    if choice == 1:     # This button generate your random coffee
         messagebox.showinfo("Random Coffee", f" {entry_name.get()}, your coffee for today is:")
     elif choice == 2:     # This button provides you with coffee based on the selected rate.
         number = simpledialog.askinteger("Manual Coffe", f" {entry_name.get()} how good you want the coffee?(1-5)")
         if 1 <= number <= 5:
-            messagebox.showinfo("Manual Coffe", f"Your coffe rated with {number} is:")
+            messagebox.showinfo("Manual Coffe", f"Your coffee rated with {number} is:")
         else:
-            messagebox.showinfo("Manual Coffe", "Your rate is incorrect!")
+            messagebox.showinfo("Manual Coffe", "Your rate is incorrect please try again.")
     elif choice == 3:     # This button provides you with the best coffee according to our opinion.
         messagebox.showinfo("Best Coffee", f" {entry_name.get()} from our side the best coffe is:")
     elif choice == 4:     # This button shows you the locations of the best coffee places in the city of Sibiu.
