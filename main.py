@@ -1,15 +1,26 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import*
+from tkinter import simpledialog
 
 
 def button_click(choice):
     if choice == 1:
-        messagebox.showinfo("Choice", f" {entry_name.get()}, your coffee for today is:")
+        messagebox.showinfo("Random Coffee", f" {entry_name.get()}, your coffee for today is:")
     elif choice == 2:
-        messagebox.showinfo("Choice", f" {entry_name.get()} how good you want the coffee? (1-5)")
+        number = simpledialog.askinteger("Manual Coffe", f" {entry_name.get()} how good you want the coffee?(1-5)")
+        if 1 <= number <= 5:
+            messagebox.showinfo("Manual Coffe", f"Your coffe rated with {number} is:")
+        else:
+            messagebox.showinfo("Manual Coffe", "Your rate is incorrect!")
     elif choice == 3:
-        messagebox.showinfo("Choice", f" Like, share and drink coffee, because this is keeping us alive !")
+        messagebox.showinfo("Best Coffee", f" {entry_name.get()} from our side the best coffe is:")
+    elif choice == 4:
+        user_input = simpledialog.askstring("Locations", "Were do you want to drink your coffee today?")
+        if user_input is not None:
+            messagebox.showinfo("Locations", f"Please click on the link below for your coffee:")
+        else:
+            messagebox.showinfo("Locations", "Invalid location")
 
 
 root = tk.Tk()
@@ -26,10 +37,12 @@ entry_name.pack()
 
 button_random_coffee = tk.Button(root, text="Random Coffee", command=lambda: button_click(1))
 button_manual_coffee = tk.Button(root, text="Manual Coffee", command=lambda: button_click(2))
-button_rate_app = tk.Button(root, text="Rate Our App", command=lambda: button_click(3))
+button_best_coffee = tk.Button(root, text="Best Coffee", command=lambda: button_click(3))
+button_location = tk.Button(root, text="Locations", command=lambda: button_click(4))
 
 button_random_coffee.pack()
 button_manual_coffee.pack()
-button_rate_app.pack()
+button_best_coffee.pack()
+button_location.pack()
 
 root.mainloop()
