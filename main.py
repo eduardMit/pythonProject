@@ -5,10 +5,10 @@ from tkinter import simpledialog
 
 
 def button_click(choice):
-    if choice == 1:     # This button generate your random coffee
+    if choice == 1:     # This button generate your random coffee.
         messagebox.showinfo("Random Coffee", f" {entry_name.get()}, your coffee for today is:")
-    elif choice == 2:     # This button provides you with coffee based on the selected rate.
-        number = simpledialog.askinteger("Manual Coffe", f" {entry_name.get()} how good you want the coffee?(1-5)")
+    elif choice == 2:     # This button provides you with a coffee based on the selected rate.
+        number = simpledialog.askfloat("Manual Coffe", f" {entry_name.get()} how good you want the coffee?(1-5)")
         if 1 <= number <= 5:
             messagebox.showinfo("Manual Coffe", f"Your coffee rated with {number} is:")
         else:
@@ -27,7 +27,7 @@ root = tk.Tk()
 root.geometry("300x200")
 img = PhotoImage(file="resources/coffeelogo2.png")
 root.iconphoto(False, img)
-root.title("Drink your coffee now")     # Create a window
+root.title("Drink your coffee now")     # Create a window.
 
 name_label = tk.Label(root, text="Please insert your name:")
 name_label.pack()
