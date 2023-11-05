@@ -1,33 +1,77 @@
+import json
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import*
 from tkinter import simpledialog
+import webbrowser
+import random
+
+
+def random_coffee():
+    try:
+        with open("Coffee.json", "r") as json_file:
+            data = json.load(json_file)
+            coffee_shops = data.get("Locations", [])
+            if coffee_shops:
+                random_shop = random.choice(coffee_shops)
+                location = random_shop.get("", "N/A")
+                name = random_shop.get("Name", "N/A")
+                rating = random_shop.get("Rating", "N/A")
+                message = f"Random Coffee:\nLocation: {location}\nName: {name}\nRating: Rating: {rating}"
+                messagebox.showinfo("Random Coffee", message)
+            else:
+                messagebox.showinfo("Random Coffee", "No coffee shop data available.")
+    except FileNotFoundError:
+        messagebox.showinfo("Error", "JSON file not found.")
+
+
+def open_gps_link(gps_address):
+    webbrowser.open(gps_address)
+
+
+def create_gps_hyperlink(gps_address):
+    gps_label = tk.Label(root, text=gps_address, fg="blue", cursor="hand2")
+    gps_label.bind("<Button-1>", lambda e, link=gps_address: open_gps_link(link))
+    return gps_label
 
 
 def button_click(choice):
-    if choice == 1:     # This button generate your random coffee.
-        messagebox.showinfo("Random Coffee", f" {entry_name.get()}, your coffee for today is:")
-    elif choice == 2:     # This button provides you with a coffee based on the selected rate.
-        number = simpledialog.askfloat("Manual Coffe", f" {entry_name.get()} how good you want the coffee?(1-5)")
+    if choice == 1:  # Random Coffee
+        random_coffee()
+    elif choice == 2:   # Manual Coffee
+        number = simpledialog.askfloat("Manual Coffee", f"{entry_name.get()}, how good you want the coffee? (1-5)")
         if 1 <= number <= 5:
-            messagebox.showinfo("Manual Coffe", f"Your coffee rated with {number} is:")
+            messagebox.showinfo("Manual Coffee", f"Your coffee rated with {number} is:")
         else:
-            messagebox.showinfo("Manual Coffe", "Your rate is incorrect please try again.")
-    elif choice == 3:     # This button provides you with the best coffee according to our opinion.
-        messagebox.showinfo("Best Coffee", f" {entry_name.get()} from our side the best coffe is:")
-    elif choice == 4:     # This button shows you the locations of the best coffee places in the city of Sibiu.
-        user_input = simpledialog.askstring("Locations", "Were do you want to drink your coffee today?")
-        if user_input is not None:
-            messagebox.showinfo("Locations", f"Please click on the link below for your coffee:")
-        else:
-            messagebox.showinfo("Locations", "Invalid location")
+            messagebox.showinfo("Manual Coffee", "Your rate is incorrect, please try again.")
+    elif choice == 3:   # Best Coffee
+        messagebox.showinfo("Best Coffee", f"{entry_name.get()}, from our side, the best coffee is:")
+    elif choice == 4:   # Locations
+        try:
+            with open("Coffee.json", "r") as json_file:
+                data = json.load(json_file)
+                coffee_info = "Locations, Ratings, and GPS Addresses:\n\n"
+                for coffee_shop in data["Locations"]:
+                    location = coffee_shop[""]
+                    rating = coffee_shop["Rating"]
+                    gps_address = coffee_shop["GPS Address"]
+                    coffee_info += f"Location: {location}\nRating: {rating}\nGPS Address: {gps_address}\n\n"
+                    gps_label = create_gps_hyperlink(gps_address)   # Create a clickable hyperlink for GPS Address
+                    gps_label.pack()
+
+                    coffee_info += "\n\n"
+
+                messagebox.showinfo("Coffee Shops Info", coffee_info)
+        except FileNotFoundError:
+            messagebox.showinfo("Error", "JSON file not found.")
+    else:
+        messagebox.showinfo("Error", "Invalid choice")
 
 
 root = tk.Tk()
-root.geometry("300x200")
-img = PhotoImage(file="resources/coffeelogo2.png")
+root.geometry("640x360")
+img = tk.PhotoImage(file="resources/coffeelogo2.png")
 root.iconphoto(False, img)
-root.title("Drink your coffee now")     # Create a window.
+root.title("Drink your coffee now")
 
 name_label = tk.Label(root, text="Please insert your name:")
 name_label.pack()

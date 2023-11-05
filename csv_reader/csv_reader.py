@@ -9,7 +9,7 @@ with open('Cafenele.csv', 'r') as csv_file:
         if row_number == 0:
             table_header = row
         else:
-            for i in range(1, len(table_header) -1):
+            for i in range(1, len(table_header)):
                 print(f"Coffee {table_header[i]} rating {row[i]}")
             print()
             print("="*10)
