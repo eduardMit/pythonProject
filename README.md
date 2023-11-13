@@ -42,7 +42,7 @@ poetry run main.py
 ## Dependencies
 
 - colorama: 0.4.4 (for colored console output - still in testing)
-- [Note: Install dependencies using `pip install -r requerments.txt`]
+- selenium
 
 ## File structure
 
