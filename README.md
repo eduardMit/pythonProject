@@ -1,63 +1,48 @@
-# Drink your coffee now
+# Coffee App
 
-Drink your coffee now is a simple Python application that provides information about coffee shops, allowing users to explore random coffe shops, filter them by rating, find the best-rated ones, and view all list of all available locations.
+The Coffee App is a simple Tkinter-based application that allows users to explore information about various coffee shops. It provides features such as displaying random coffee information, filtering coffee shops by rating, and viewing details about the best coffee shops.
+
+## Table of Contents
+
+- [Features](#features)
+- [Usage](#usage)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
 
 ## Features
 
--**Random Coffee:** Explore information about randomly selected coffe shop.
-
--**Manual Coffee:** Filter coffe shops based on user-provided ratings.
-
--**Best Coffee:** Find the best-rated coffee shops.
-
--**Locations:** View a list of all coffee shops locations along with ratings and GPS addresses.
-
-## Prerequisites
-
-Before running the application, ensure you have the following installed:
-
-- Python 3.11
-- Tkinter (usually included with Python installation)
-
-## Installation
-
-1. Clone the repository:
-``` bash
-git clone https://github.com/eduardMit/pythonProject
-```
-2. Navigate to the project directory:
-``` bash
-CD CoffeeApp
-```
-3. Run the application:
-``` bash
-poetry run main.py
-```
+- Display information about a random coffee shop.
+- Filter coffee shops by user-defined rating.
+- View details about the best coffee shops based on a default rating.
+- Explore information about all coffee shop locations.
 
 ## Usage
 
-- Launch the application and use the provided buttons to explore different features.
-- Follow on-screen instructions for manual coffe rating input.
+1. Clone the repository:
 
-## Dependencies
+    ```bash
+    git https://github.com/eduardMit/pythonProject
+    cd pythonProject
+    ```
 
-- colorama: 0.4.4 (for colored console output - still in testing)
-- selenium
+2. Run the application:
 
-## File structure
+    ```bash
+    poetry run python scr/main.py
+    ```
 
-- `coffee_app.py`: the main Pithon script containing the CoffeeApp class and functionality.
-- `Coffee.json`: Json file storing information about coffee shops
-- `resorces/`: Directory containing images and other resources.
+3. Upon running the application, a graphical user interface (GUI) will appear with various buttons.
+   - Click on buttons like "Random Coffee," "Manual Coffee," "Best Coffee," or "Locations" to explore different features.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
 
-# Acknowledgements
+## Acknowledgements
 
 - Icons made bt Icongeek26 from Flaticon.
 
-# Contact
+## Contact
 
 For any issues or suggestions, please contact [eduard.mitrica98@yahoo.com]

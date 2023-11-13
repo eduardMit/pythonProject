@@ -4,9 +4,10 @@ from tkinter import simpledialog, scrolledtext
 import webbrowser
 import random
 import logging
-from coffee_shop import CoffeeShop
+from coffee_shop import CoffeeShop  # Importing the CoffeeShop class
 
 
+# Decorator to handle exceptions and log errors
 def try_except_decorator(func):
     def wrapper(*args, **kwargs):
         try:
@@ -18,6 +19,7 @@ def try_except_decorator(func):
     return wrapper
 
 
+# The main CoffeeApp class
 class CoffeeApp:
     def __init__(self, json_file_path):
         # Initialize the Tkinter application
@@ -36,6 +38,7 @@ class CoffeeApp:
         # Create the initial graphical interface
         self.create_initial_interface()
 
+    # Decorated method to create the initial interface with buttons
     @try_except_decorator
     def create_initial_interface(self):
         self.clear_interface()
@@ -54,11 +57,13 @@ class CoffeeApp:
             button = tk.Button(frame, text=text, command=command, font=("Arial", 16), height=2, width=15)
             button.grid(row=i // 2, column=i % 2, padx=20, pady=20)
 
+    # Decorated method to clear the existing interface
     @try_except_decorator
     def clear_interface(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
+    # Decorated method to display information with clickable URLs
     @try_except_decorator
     def display_info(self, info, try_again_command=None):
         self.clear_interface()
@@ -90,11 +95,13 @@ class CoffeeApp:
             try_again_button = tk.Button(button_frame, text="Try Again", command=try_again_command, font=("Arial", 14))
             try_again_button.pack(side="right", padx=5)
 
+    # Decorated static method to open a URL in a browser
     @staticmethod
     @try_except_decorator
     def open_url(url):
         webbrowser.open(url)
 
+    # Decorated method to filter coffee shops by rating
     @try_except_decorator
     def filter_coffee_by_rating(self, rating):
         with open(self.json_file_path, "r") as json_file:
@@ -117,6 +124,7 @@ class CoffeeApp:
                 self.display_info(f"No coffee shops with rating equal or greater than {rating}.", try_again_command)
                 self.log_and_print_error(f"No coffee shops with rating equal or greater than {rating}")
 
+    # Decorated method to display information about a random coffee shop
     @try_except_decorator
     def random_coffee(self):
         with open(self.json_file_path, "r") as json_file:
@@ -136,6 +144,7 @@ class CoffeeApp:
                 self.display_info("No coffee shop data available.")
                 self.log_and_print_error("No coffee shop data available")
 
+    # Decorated method to display information about the best coffee shops with a given rating
     @try_except_decorator
     def best_coffee_rating(self, rating):
         with open(self.json_file_path, "r") as json_file:
@@ -161,6 +170,7 @@ class CoffeeApp:
                 self.display_info(f"No coffee shops with rating equal or greater than {rating}.", try_again_command)
                 self.log_and_print_error(f"No coffee shops with rating equal or greater than {rating}")
 
+    # Decorated method to get a manual coffee rating from the user and filter coffee shops
     @try_except_decorator
     def manual_coffee(self):
         rating = simpledialog.askinteger("Coffee Rating", "How good you want your coffee?(1-5):", minvalue=1,
@@ -178,11 +188,13 @@ class CoffeeApp:
             self.display_info("Please enter a valid rating.", try_again_command)
             self.log_and_print_error("Invalid rating entered")
 
+    # Decorated method to display information about the best coffee shops with a predefined rating
     @try_except_decorator
     def best_coffee(self):
         rating = 4
         self.best_coffee_rating(rating)
 
+    # Decorated method to display information about all coffee shop locations
     @try_except_decorator
     def location_list(self):
         with open(self.json_file_path, "r") as json_file:
@@ -196,18 +208,21 @@ class CoffeeApp:
             self.display_info(coffee_info)
             self.log_and_print_success("Displayed information about all coffee shop locations")
 
+    # Decorated static method to log and print success messages
     @staticmethod
     @try_except_decorator
     def log_and_print_success(success_message):
         logging.info(success_message)
         print(success_message)
 
+    # Decorated static method to log and print error messages
     @staticmethod
     @try_except_decorator
     def log_and_print_error(error_message):
         logging.error(error_message)
         print(f"Error: {error_message}")
 
+    # Decorated method to start the Tkinter main loop
     @try_except_decorator
     def run(self):
         self.root.mainloop()
@@ -215,5 +230,6 @@ class CoffeeApp:
 
 # Example usage
 if __name__ == "__main__":
+    # Create an instance of CoffeeApp and run the application
     app = CoffeeApp("your_json_file_path.json")
     app.run()
