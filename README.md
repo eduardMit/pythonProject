@@ -29,7 +29,7 @@ The Coffee App is a simple Tkinter-based application that allows users to explor
 2. Run the application:
 
     ```bash
-    poetry run python src/coffee_app.py
+    poetry run python src/main.py
 
     ```
 
