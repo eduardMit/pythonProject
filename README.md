@@ -30,10 +30,19 @@ The Coffee App is a simple Tkinter-based application that allows users to explor
 
     ```bash
     poetry run python src/coffee_app.py
+
     ```
 
 3. Upon running the application, a graphical user interface (GUI) will appear with various buttons.
    - Click on buttons like "Random Coffee," "Manual Coffee," "Best Coffee," or "Locations" to explore different features.
+
+## Application Flow Diagram
+
+![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/resources/Flow%20diagram.svg)
+
+## Application Arhitecture Diagram
+
+![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/resources/Arhitecture%20Diagram.svg)
 
 ## License
 
@@ -46,3 +55,4 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 For any issues or suggestions, please contact [eduard.mitrica98@yahoo.com](mailto:eduard.mitrica98@yahoo.com).
+
