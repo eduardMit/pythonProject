@@ -38,11 +38,11 @@ The Coffee App is a simple Tkinter-based application that allows users to explor
 
 ## Application Flow Diagram
 
-![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/resources/Flow%20diagram.svg)
+![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/Diagrams/Flow%20diagram.svg)
 
 ## Application Arhitecture Diagram
 
-![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/resources/Arhitecture%20Diagram.svg)
+![Application Diagram](file:///C:/Users/eduar/PycharmProjects/pythonProject/Diagrams/Arhitecture%20Diagram.svg)
 
 ## License
 
