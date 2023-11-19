@@ -5,7 +5,7 @@ from tkinter import simpledialog, scrolledtext
 import re
 import random
 import logging
-from coffee_shop import CoffeeShop  # Assuming you have a CoffeeShop class defined in a separate module
+from coffee_shop import CoffeeShop
 
 
 # Exception handling decorator
@@ -106,37 +106,41 @@ class CoffeeApp:
 
     @exception_handler
     def filter_coffee_by_rating(self, rating):
-        # Filter coffee shops by rating
         try:
             with open(self.json_file_path, "r") as json_file:
                 data = json.load(json_file)
                 coffee_shops = [CoffeeShop(shop) for shop in data.get("Locations", [])]
-                filtered_shops = [shop for shop in coffee_shops if
-                                  float(shop.rating) >= float(rating) and shop.location]
 
                 try_again_command = self.manual_coffee
-                if filtered_shops:
-                    coffee_info = f"Coffee Shops with Rating Equal or Greater than {rating}:\n\n"
+                if coffee_shops:
+                    coffee_info = f"All Coffee Shops and Locations:\n\n"
                     urls = []
 
-                    for shop in filtered_shops:
-                        coffee_info += f"Location: {shop.location}\n"
-                        for key, value in shop.coffee_data.items():
-                            coffee_info += f"{key}: {value}\n"
-
+                    for shop in coffee_shops:
                         # Check if the shop has a GPS Address with a valid URL
                         gps_address = shop.coffee_data.get("GPS Address", "")
                         url_match = re.search(r'https?://\S+', gps_address)
+
+                        coffee_info += f"Location: {shop.location}\n"
+
+                        # Display all keys and values for coffee_data
+                        for key, value in shop.coffee_data.items():
+                            coffee_info += f"{key}: {value}\n"
+
                         if url_match:
                             url_to_open = url_match.group()
                             urls.append(url_to_open)
                             coffee_info += f"GPS Address: {gps_address}\n\n"
 
-                    self.display_info(coffee_info, try_again_command, urls)
-                    logging.info(f"Filtered coffee shops by rating {rating}")
+                    if coffee_info != f"All Coffee Shops and Locations:\n\n":
+                        self.display_info(coffee_info, try_again_command, urls)
+                        logging.info(f"Filtered coffee shops by value {rating}")
+                    else:
+                        self.display_info(f"No coffee shops available.", try_again_command)
+                        logging.error(f"No coffee shops available")
                 else:
-                    self.display_info(f"No coffee shops with rating equal or greater than {rating}.", try_again_command)
-                    logging.error(f"No coffee shops with rating equal or greater than {rating}")
+                    self.display_info(f"No coffee shops available.", try_again_command)
+                    logging.error(f"No coffee shops available")
         except FileNotFoundError as e:
             logging.error(f"JSON file not found: {e}")
 
@@ -194,24 +198,66 @@ class CoffeeApp:
 
     @exception_handler
     def manual_coffee(self):
-        # Ask the user for a coffee rating and filter coffee shops based on that rating
         try:
-            rating = simpledialog.askinteger("Coffee Rating", "How good you want your coffee?(1-5):", minvalue=1,
-                                             maxvalue=5)
-            self.clear_interface()
+            # Open the JSON file and load the data
+            with open(self.json_file_path, "r") as json_file:
+                data = json.load(json_file)
 
-            img = tk.PhotoImage(file="resources/coffeelogo2.png")
-            self.root.iconphoto(False, img)
+                # Ask the user to input the desired rating for filtering
+                rating = simpledialog.askinteger("Coffee Rating", "How good do you want your coffee? (1-5):",
+                                                 minvalue=1, maxvalue=5)
 
-            if rating is not None:
-                self.filter_coffee_by_rating(rating)
-                logging.info(f"Filtered coffee shops by rating {rating}")
-            else:
-                try_again_command = self.manual_coffee
-                self.display_info("Please enter a valid rating.", try_again_command)
-                logging.error("Invalid rating entered")
-        except Exception as e:
-            logging.error(f"Error: {e}")
+                # Display all keys with the value 5, ignoring "Rating" and "GPS Address"
+                if rating == 5:
+                    coffee_info = "All Keys with Value 5:\n\n"
+                    for shop in data.get("Locations", []):
+                        location = shop.get("A", "N/A")
+                        rating_values = {k: int(v) for k, v in shop.items() if
+                                         str(v).isdigit() and int(v) == 5 and k not in ("Rating", "GPS Address")}
+                        if rating_values:
+                            coffee_info += f"Location: {location}\n"
+                            for key, value in rating_values.items():
+                                coffee_info += f"{key}: {value}\n"
+                            coffee_info += "\n"
+
+                    try_again_command = self.manual_coffee
+                    self.display_info(coffee_info, try_again_command)
+                    logging.info("Displayed keys with value 5")
+
+                # Filter in-memory based on rating
+                else:
+                    filtered_shops = [shop for shop in data.get("Locations", [])
+                                      if int(shop.get("Rating", 0)) >= rating and shop.get("A") is not None]
+
+                    # Display the filtered information
+                    try_again_command = self.manual_coffee
+                    if filtered_shops:
+                        coffee_info = f"Coffee Shops with Rating Equal or Greater than {rating}:\n\n"
+                        for shop in filtered_shops:
+                            location = shop.get("A", "N/A")
+                            rating_values = {k: int(v) for k, v in shop.items()
+                                             if str(v).isdigit() and int(v) >= rating and k not in (
+                                             "A", "Rating", "GPS Address")}
+                            if rating_values:
+                                coffee_info += f"Location: {location}\n"
+                                for key, value in rating_values.items():
+                                    coffee_info += f"{key}: {value}\n"
+                                coffee_info += "\n"
+
+                        self.display_info(coffee_info, try_again_command)
+                        logging.info(f"Filtered coffee shops by rating {rating}")
+                    else:
+                        self.display_info(f"No coffee shops with rating equal or greater than {rating}.",
+                                          try_again_command)
+                        logging.error(f"No coffee shops with rating equal or greater than {rating}")
+        except FileNotFoundError as e:
+            logging.error(f"JSON file not found: {e}")
+
+    @exception_handler
+    def best_coffee(self):
+        # Display information about the best coffee shops with a predefined rating
+        rating = 4
+        self.best_coffee_rating(rating)
 
     @exception_handler
     def best_coffee(self):
@@ -268,7 +314,7 @@ class CoffeeApp:
                                         font=("Arial", 14))
                 back_button.grid(row=(len(coffee_shops) - 1) // 2 + 1, column=0, columnspan=2, pady=10)
 
-                logging.info("Displayed 'Click Here' buttons for all coffee shop locations")
+                logging.info("Displayed 'Location' buttons for all coffee shop locations")
 
         except FileNotFoundError as e:
             logging.error(f"JSON file not found: {e}")
